@@ -1,0 +1,45 @@
+{
+    "name": "binsoul/net-http-message-message",
+    "description": "Implementation of PSR-7 message interfaces",
+    "keywords": [
+        "http",
+        "message",
+        "psr7"
+    ],
+    "homepage": "https://github.com/binsoul/net-http-message-message",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sebastian Mößler",
+            "email": "code@binsoul.de",
+            "homepage": "https://github.com/binsoul",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : ">=5.6.0",
+        "psr/http-message" : "~1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "^4.0",
+        "fabpot/php-cs-fixer": "^1.0"
+    },
+    "suggest": {
+        "binsoul/net-http-message-bridge": "For an implementation of PSR-7 URI and stream interfaces"
+    },
+    "autoload": {
+        "psr-4": {
+            "BinSoul\\Net\\Http\\Message\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "BinSoul\\Test\\Net\\Http\\Message\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "fix-src": "php-cs-fixer fix -v src",
+        "fix-tests": "php-cs-fixer fix -v tests"
+    }
+}
