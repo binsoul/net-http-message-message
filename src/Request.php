@@ -3,6 +3,7 @@
 namespace BinSoul\Net\Http\Message;
 
 use BinSoul\Net\Http\Message\Collection\HeaderCollection;
+use BinSoul\Net\Http\Message\Part\Method;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
@@ -14,7 +15,7 @@ use Psr\Http\Message\UriInterface;
  */
 class Request extends Message implements RequestInterface
 {
-    /** @var string */
+    /** @var Method */
     protected $method;
     /** @var string */
     protected $target;
@@ -37,7 +38,7 @@ class Request extends Message implements RequestInterface
         HeaderCollection $headers = null,
         $protocol = ''
     ) {
-        $this->method = $method;
+        $this->method = new Method($method);
         $this->uri = $uri;
 
         $headers = $headers !== null ? $headers : new HeaderCollection();
@@ -76,13 +77,13 @@ class Request extends Message implements RequestInterface
 
     public function getMethod()
     {
-        return $this->method;
+        return $this->method->getName();
     }
 
     public function withMethod($method)
     {
         $result = clone $this;
-        $result->method = $method;
+        $result->method = new Method($method);
 
         return $result;
     }

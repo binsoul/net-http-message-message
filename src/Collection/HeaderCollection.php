@@ -2,21 +2,14 @@
 
 namespace BinSoul\Net\Http\Message\Collection;
 
+use BinSoul\Net\Http\Message\Part\Header;
+
 /**
  * Provides methods to handle a collection of request headers.
  */
 class HeaderCollection
 {
-    /**
-     * List of headers which are known to be single values.
-     *
-     * @var string[]
-     */
-    private static $knownSingleValues = [
-        'user-agent',
-    ];
-
-    /** @var string[] */
+    /** @var Header[] */
     protected $headers = [];
 
     /**
@@ -40,7 +33,7 @@ class HeaderCollection
     {
         $result = [];
         foreach ($this->headers as $header) {
-            $result[$header['name']] = $header['data'];
+            $result[$header->getName()] = $header->getValuesAsArray();
         }
 
         return $result;
@@ -70,12 +63,12 @@ class HeaderCollection
      */
     public function get($name, $default = null)
     {
-        $name = strtolower($name);
-        if (!array_key_exists($name, $this->headers)) {
+        $key = strtolower($name);
+        if (!array_key_exists($key, $this->headers)) {
             return $default;
         }
 
-        return implode(',', $this->headers[$name]['data']);
+        return $this->headers[$key]->getValuesAsString();
     }
 
     /**
@@ -88,12 +81,12 @@ class HeaderCollection
      */
     public function getValues($name, array $default = [])
     {
-        $name = strtolower($name);
-        if (!array_key_exists($name, $this->headers)) {
+        $key = strtolower($name);
+        if (!array_key_exists($key, $this->headers)) {
             return $default;
         }
 
-        return $this->headers[$name]['data'];
+        return $this->headers[$key]->getValuesAsArray();
     }
 
     /**
@@ -108,24 +101,10 @@ class HeaderCollection
     public function set($name, $value, $replace = true)
     {
         $key = strtolower($name);
-
-        if (in_array($key, self::$knownSingleValues)) {
-            $values = [$value];
+        if ($replace || !array_key_exists($key, $this->headers)) {
+            $this->headers[$key] = new Header($name, $value);
         } else {
-            $values = $this->prepareValues($value);
-        }
-
-        if ($replace == true || !isset($this->headers[$key])) {
-            $this->headers[$key] = [
-                'name' => $name,
-                'data' => array_values(array_unique($values)),
-            ];
-        } else {
-            $this->headers[$key]['data'] = array_values(
-                array_unique(
-                    array_merge($this->headers[$key]['data'], $values)
-                )
-            );
+            $this->headers[$key]->addValue($value);
         }
     }
 
@@ -138,30 +117,5 @@ class HeaderCollection
     {
         $key = strtolower($name);
         unset($this->headers[$key]);
-    }
-
-    /**
-     * Splits comma-separated strings into an array and removes whitespaces and empty values.
-     *
-     * @param string|string[] $value
-     *
-     * @return string[]
-     */
-    private function prepareValues($value)
-    {
-        $values = $value;
-        if (!is_array($value)) {
-            $values = explode(',', (string) $value);
-        }
-
-        foreach (array_keys($values) as $key) {
-            $values[$key] = trim($values[$key]);
-
-            if ($values[$key] == '') {
-                unset($values[$key]);
-            }
-        }
-
-        return $values;
     }
 }
