@@ -10,10 +10,6 @@ class UploadedFileTest extends \PHPUnit_Framework_TestCase
     /** @var string */
     protected $tempFile;
 
-    public function setUp()
-    {
-    }
-
     public function tearDown()
     {
         if (file_exists($this->tempFile)) {
@@ -120,10 +116,10 @@ class UploadedFileTest extends \PHPUnit_Framework_TestCase
      */
     public function test_moveTo_raises_exception_for_unwritable_target()
     {
+        /** @var StreamInterface $stream */
         $stream = $this->getMock(StreamInterface::class);
         $this->tempFile = sys_get_temp_dir();
 
-        /** @var StreamInterface $stream */
         $uploadedFile = new UploadedFile($stream, '', UPLOAD_ERR_OK);
         $uploadedFile->moveTo(sys_get_temp_dir());
     }
