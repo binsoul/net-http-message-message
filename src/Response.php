@@ -1,5 +1,7 @@
 <?php
 
+declare (strict_types = 1);
+
 namespace BinSoul\Net\Http\Message;
 
 use BinSoul\Net\Http\Message\Part\Status;
@@ -35,7 +37,7 @@ class Response extends Message implements ResponseInterface
      * @param int                   $status  HTTP status code of the response
      * @param HeaderCollection|null $headers headers of the response
      */
-    public function __construct(StreamInterface $body, $status = 200, HeaderCollection $headers = null)
+    public function __construct(StreamInterface $body, int $status = 200, HeaderCollection $headers = null)
     {
         parent::__construct($body, $headers);
 

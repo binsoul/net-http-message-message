@@ -1,5 +1,7 @@
 <?php
 
+declare (strict_types = 1);
+
 namespace BinSoul\Net\Http\Message;
 
 use Psr\Http\Message\StreamInterface;
@@ -32,22 +34,22 @@ class UploadedFile implements UploadedFileInterface
      *
      * @param StreamInterface $stream          stream for the file
      * @param string          $filename        path to the file
-     * @param int             $size            size of the file
      * @param int             $errorStatus     UPLOAD_ERR_XXX status code of the file
+     * @param int             $size            size of the file
      * @param string          $clientFilename  name of the file sent by the client
      * @param string          $clientMediaType mime type of the file sent by the client
      */
     public function __construct(
         StreamInterface $stream,
-        $filename,
-        $errorStatus,
-        $size = null,
-        $clientFilename = null,
-        $clientMediaType = null
+        string $filename,
+        int $errorStatus,
+        int $size = null,
+        string $clientFilename = null,
+        string $clientMediaType = null
     ) {
         $this->stream = $stream;
         $this->filename = $filename;
-        $this->error = (int) $errorStatus;
+        $this->error = $errorStatus;
         $this->size = $size;
         $this->clientFilename = $clientFilename;
         $this->clientMediaType = $clientMediaType;

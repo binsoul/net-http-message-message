@@ -1,5 +1,7 @@
 <?php
 
+declare (strict_types = 1);
+
 namespace BinSoul\Net\Http\Message\Part;
 
 /**
@@ -364,10 +366,10 @@ class Header
     /**
      * Constructs an instance of this class.
      *
-     * @param $name
-     * @param $value
+     * @param string          $name
+     * @param string|string[] $value
      */
-    public function __construct($name, $value)
+    public function __construct(string $name, $value)
     {
         $this->name = $name;
         $this->values = $this->prepareValues($value);
@@ -378,7 +380,7 @@ class Header
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -388,7 +390,7 @@ class Header
      *
      * @return string
      */
-    public function getValuesAsString()
+    public function getValuesAsString(): string
     {
         return implode(',', $this->values);
     }
@@ -398,7 +400,7 @@ class Header
      *
      * @return string[]
      */
-    public function getValuesAsArray()
+    public function getValuesAsArray(): array
     {
         return $this->values;
     }
@@ -424,7 +426,7 @@ class Header
      *
      * @return string
      */
-    public static function getRegisteredName($name)
+    public static function getRegisteredName(string $name): string
     {
         $key = strtolower($name);
 
@@ -438,7 +440,7 @@ class Header
      *
      * @return bool
      */
-    public static function hasMultipleValues($name)
+    public static function hasMultipleValues(string $name): bool
     {
         $key = strtolower($name);
 
@@ -452,7 +454,7 @@ class Header
      *
      * @return string[]
      */
-    private function prepareValues($value)
+    private function prepareValues($value): array
     {
         if (!self::hasMultipleValues($this->name)) {
             $values = is_array($value) ? $value : [trim($value)];

@@ -1,5 +1,7 @@
 <?php
 
+declare (strict_types = 1);
+
 namespace BinSoul\Net\Http\Message\Collection;
 
 use BinSoul\Net\Http\Message\Part\Header;
@@ -20,7 +22,7 @@ class HeaderCollection
     public function __construct(array $headers = [])
     {
         foreach ($headers as $key => $values) {
-            $this->set($key, $values);
+            $this->set((string) $key, $values);
         }
     }
 
@@ -29,7 +31,7 @@ class HeaderCollection
      *
      * @return string[][]
      */
-    public function all()
+    public function all(): array
     {
         $result = [];
         foreach ($this->headers as $header) {
@@ -46,7 +48,7 @@ class HeaderCollection
      *
      * @return bool
      */
-    public function has($name)
+    public function has(string $name): bool
     {
         return array_key_exists(strtolower($name), $this->headers);
     }
@@ -61,7 +63,7 @@ class HeaderCollection
      *
      * @return string
      */
-    public function get($name, $default = null)
+    public function get(string $name, $default = null)
     {
         $key = strtolower($name);
         if (!array_key_exists($key, $this->headers)) {
@@ -79,7 +81,7 @@ class HeaderCollection
      *
      * @return mixed[]
      */
-    public function getValues($name, array $default = [])
+    public function getValues(string $name, array $default = []): array
     {
         $key = strtolower($name);
         if (!array_key_exists($key, $this->headers)) {
@@ -98,7 +100,7 @@ class HeaderCollection
      * @param string|mixed[] $value   value of the header
      * @param bool           $replace replace the value or append to exiting values
      */
-    public function set($name, $value, $replace = true)
+    public function set(string $name, $value, bool $replace = true)
     {
         $key = strtolower($name);
         if ($replace || !array_key_exists($key, $this->headers)) {
@@ -113,7 +115,7 @@ class HeaderCollection
      *
      * @param string $name case-insensitive name of the header
      */
-    public function remove($name)
+    public function remove(string $name)
     {
         $key = strtolower($name);
         unset($this->headers[$key]);

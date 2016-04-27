@@ -1,5 +1,7 @@
 <?php
 
+declare (strict_types = 1);
+
 namespace BinSoul\Net\Http\Message;
 
 use BinSoul\Net\Http\Message\Collection\HeaderCollection;
@@ -27,7 +29,7 @@ class Message implements MessageInterface
      * @param HeaderCollection $headers  headers of the message
      * @param string           $protocol HTTP protocol version of the message
      */
-    public function __construct(StreamInterface $body, HeaderCollection $headers = null, $protocol = '1.1')
+    public function __construct(StreamInterface $body, HeaderCollection $headers = null, string $protocol = '1.1')
     {
         $this->protocol = $protocol;
         $this->body = $body;

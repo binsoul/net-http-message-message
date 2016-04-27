@@ -1,5 +1,7 @@
 <?php
 
+declare (strict_types = 1);
+
 namespace BinSoul\Net\Http\Message\Part;
 
 /**
@@ -83,7 +85,7 @@ class Status
     /**
      * Constructs an instance of this class.
      *
-     * @param int $code
+     * @param int|string $code
      */
     public function __construct($code)
     {
@@ -95,7 +97,7 @@ class Status
      *
      * @return int
      */
-    public function getCode()
+    public function getCode(): int
     {
         return $this->code;
     }
@@ -105,17 +107,17 @@ class Status
      *
      * @return string
      */
-    public function getPhrase()
+    public function getPhrase(): string
     {
         return isset(self::$phrases[$this->code]) ? self::$phrases[$this->code] : '';
     }
 
     /**
-     * @param int $code
+     * @param int|string $code
      *
      * @return bool
      */
-    public static function isValid($code)
+    public static function isValid($code): bool
     {
         return (int) $code >= 100 && (int) $code <= 599;
     }
@@ -129,7 +131,7 @@ class Status
      *
      * @return int
      */
-    private function filterStatus($code)
+    private function filterStatus($code): int
     {
         if (!is_numeric($code)) {
             throw new \InvalidArgumentException(

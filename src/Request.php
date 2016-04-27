@@ -1,5 +1,7 @@
 <?php
 
+declare (strict_types = 1);
+
 namespace BinSoul\Net\Http\Message;
 
 use BinSoul\Net\Http\Message\Collection\HeaderCollection;
@@ -32,11 +34,11 @@ class Request extends Message implements RequestInterface
      * @param string           $protocol HTTP protocol version of the request
      */
     public function __construct(
-        $method,
+        string $method,
         UriInterface $uri,
         StreamInterface $body,
         HeaderCollection $headers = null,
-        $protocol = ''
+        string $protocol = ''
     ) {
         $this->method = new Method($method);
         $this->uri = $uri;
@@ -116,7 +118,7 @@ class Request extends Message implements RequestInterface
      *
      * @return string
      */
-    private function buildHost(UriInterface $uri)
+    private function buildHost(UriInterface $uri): string
     {
         return $uri->getHost().($uri->getPort() !== null ? ':'.$uri->getPort() : '');
     }

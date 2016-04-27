@@ -1,5 +1,7 @@
 <?php
 
+declare (strict_types = 1);
+
 namespace BinSoul\Net\Http\Message\Collection;
 
 /**
@@ -53,7 +55,7 @@ class ParameterCollection
      *
      * @return mixed[]
      */
-    public function all()
+    public function all(): array
     {
         return $this->parameters;
     }
@@ -65,7 +67,7 @@ class ParameterCollection
      *
      * @return bool
      */
-    public function has($name)
+    public function has(string $name): bool
     {
         $parts = explode('[', $name);
         $lastKey = trim(array_pop($parts), ']');
@@ -94,7 +96,7 @@ class ParameterCollection
      *
      * @return mixed
      */
-    public function get($name, $default = null)
+    public function get(string $name, $default = null)
     {
         $parts = explode('[', $name);
         $lastKey = trim(array_pop($parts), ']');
@@ -121,7 +123,7 @@ class ParameterCollection
      * @param string $name  name of the parameter
      * @param mixed  $value value of the parameter
      */
-    public function set($name, $value)
+    public function set(string $name, $value)
     {
         $parts = explode('[', $name);
         $lastKey = trim(array_pop($parts), ']');
@@ -143,7 +145,7 @@ class ParameterCollection
      *
      * @param string $name name of the parameter
      */
-    public function remove($name)
+    public function remove(string $name)
     {
         $parts = explode('[', $name);
         $lastKey = trim(array_pop($parts), ']');

@@ -1,5 +1,7 @@
 <?php
 
+declare (strict_types = 1);
+
 namespace BinSoul\Net\Http\Message;
 
 use BinSoul\Net\Http\Message\Collection\HeaderCollection;
@@ -43,7 +45,7 @@ class ServerRequest extends Request implements ServerRequestInterface
      * @param string              $protocol HTTP protocol version of the request
      */
     public function __construct(
-        $method,
+        string $method,
         UriInterface $uri,
         StreamInterface $body,
         HeaderCollection $headers = null,
@@ -52,7 +54,7 @@ class ServerRequest extends Request implements ServerRequestInterface
         ParameterCollection $post = null,
         ParameterCollection $server = null,
         array $files = [],
-        $protocol = ''
+        string $protocol = ''
     ) {
         parent::__construct($method, $uri, $body, $headers, $protocol);
 
@@ -152,9 +154,9 @@ class ServerRequest extends Request implements ServerRequestInterface
      *
      * @param mixed $attributes attributes of the new instance
      *
-     * @return static
+     * @return self
      */
-    public function withAttributes(array $attributes)
+    public function withAttributes(array $attributes): self
     {
         $result = clone $this;
         $result->attributes = new ParameterCollection($attributes);
